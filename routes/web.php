@@ -37,3 +37,8 @@ Route::get('/merge', function () {
     return $str;
 
 });
+
+Route::get('/rebase', function () {
+
+    // test
+});
