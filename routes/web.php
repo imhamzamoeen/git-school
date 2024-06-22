@@ -9,5 +9,5 @@ Route::get('/', function () {
 
 
 Route::get('test', function () {
-    $name = 'test';
+    $name = 'hamza';
 });
