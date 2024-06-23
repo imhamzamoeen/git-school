@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $string = "testing";
+    $newVar= 2;
     return view('welcome');
 });
 
