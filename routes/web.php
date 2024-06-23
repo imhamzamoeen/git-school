@@ -57,6 +57,7 @@ Route::get('/rebase', function () {
 Route::get('/revert', function () {
 
     $variableToDel = "del";
+    $notToDel = "not";
     return 1;
 
 });
