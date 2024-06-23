@@ -3,7 +3,10 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    $string = "hamzais";
+    $string = "testing";
+    $newVar= 2;
+
+    $tetingVar = "asad";
     return view('welcome');
 });
 
