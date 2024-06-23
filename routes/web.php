@@ -37,3 +37,9 @@ Route::get('/merge', function () {
     return $str;
 
 });
+
+
+Route::get('/awein', function () {
+
+    $name = 'awein';
+});
