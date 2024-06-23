@@ -42,4 +42,7 @@ Route::get('/merge', function () {
 Route::get('/awein', function () {
 
     $name = 'awein';
+
+    $aba = 'shawein';
+
 });
