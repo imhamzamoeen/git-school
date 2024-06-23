@@ -45,4 +45,6 @@ Route::get('/awein', function () {
 
     $aba = 'shawein';
 
+    $dada = "shappatar";
+
 });
