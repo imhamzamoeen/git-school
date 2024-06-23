@@ -54,4 +54,13 @@ Route::get('/rebase', function () {
 
 });
 
+Route::get('/revert', function () {
+
+    $variableToDel = "del";
+    return 1;
+
+});
+
+
+
 
