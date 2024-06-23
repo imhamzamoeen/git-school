@@ -37,31 +37,3 @@ Route::get('/merge', function () {
     return $str;
 
 });
-
-
-
-
-Route::get('/rebase', function () {
-
-    $str = "
-    git rebase is basically take all my commit and put on the latest commit of the given branch name
-    like if i do git rebase main  at feature branch
-    then it will copy all my feature commit into a holding area(commit ids will be changed)
-    paste it on the latest commit of the main branch
-    mean now feature branch will be like it is taken from the latest commit of the main branch
-    ";
-    return $str;
-
-});
-
-Route::get('/revert', function () {
-
-    $variableToDel = "del";
-    $notToDel = "not";
-    return 1;
-
-});
-
-
-
-
