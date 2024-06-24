@@ -1,8 +1,13 @@
-name: "hello world"
+# its a key value pair with python syntax
+# first it will contain a name that will be name of this file
+name:
+  "hello world"
+  # then it need to define at which event this will be triggered like create of branch del of branch push pull merge
 
 on:
-  push:
-    branches:
+  #trigger this whenever the push event is done on the beneath branches
+  push: # here the event name
+    branches: #whenever the above written event happens on the beneath branches the jobs will run
       - main
       - develop
   pull_request:
@@ -10,15 +15,14 @@ on:
       - main
       - develop
 
-
-jobs:
-  hello:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: hello world
-        run: echo "hello world"
-        shell: bash
+jobs: # here starts the job section
+  hello: # the name you have given to your first job, its easier to debug then this will be written there at the github action
+    runs-on: ubuntu-latest # on which runner it will run since each job to run independently
+    steps: #steps of the job
+      - uses: actions/checkout@v2 # which action it is using as there are lot of pre built written by people so we use this and its like owner/repo@version or tag or branch
+      - name: hello world #name of the step
+        run: echo "hello world" #what to do
+        shell: bash #what terminal
 
   bye:
     runs-on: ubuntu-latest
