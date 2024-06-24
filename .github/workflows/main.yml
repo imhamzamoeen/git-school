@@ -2,7 +2,7 @@
 
 # first it will contain a name that will be name of this file and
 
-name: hello world
+name: "hello world"
 
 # then it need to define at which event this will be triggered like create of branch del of branch push pull merge
 
