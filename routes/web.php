@@ -46,3 +46,15 @@ Route::get('/awein', function () {
     $aba = 'shawein';
 
 });
+
+
+
+Route::get('/rebase', function () {
+
+    $str = "Rebase is take my all commits copy it in a ne holding area , there the commit ids will be new
+    and now from the latest branch of the destination branch i am providing like at feature branch i do git rebase main
+    and it will take all the commits from the feature branch and put them in after the  latest commit of  the main branch
+    it will be like this branch has been taken out from the latest branch of the destination branch";
+    return $str;
+
+});
