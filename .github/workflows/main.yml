@@ -10,7 +10,6 @@ on:
       - main
       - develop
 
-workflow_dispatch: # Creates a button in GitHub to manually trigger this workflow
 
 jobs:
   hello:
