@@ -1,0 +1,13 @@
+name: "dump event"
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  dump-evnet:
+    runs-on: ubuntu-latest
+    steps:
+      -name: "dump event"
+       run: echo '${{ toJSON(github.event) }}'  # this is github command to check whats in payload of the event to
+       shell: bash
