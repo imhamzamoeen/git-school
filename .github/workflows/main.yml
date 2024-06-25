@@ -27,7 +27,7 @@ jobs: # here starts the job section
         id: slack
         uses: slackapi/slack-github-action@v1.26.0
         with:
-          message: "Send GitHub Action trigger data to Slack workflow"
+          slack-message: "Send GitHub Action trigger data to Slack workflow"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
