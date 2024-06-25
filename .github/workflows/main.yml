@@ -29,7 +29,7 @@ jobs: # here starts the job section
         with:
           # Slack channel id, channel name, or user id to post message.
           # See also: https://api.slack.com/methods/chat.postMessage#channels
-          channel-id: "C079R7AGEE7" #we can get from a channel url
+          channel-id: "T078ZABN0EQ" #we can get from a channel url
           # For posting a rich message using Block Kit
           payload: |
             {
