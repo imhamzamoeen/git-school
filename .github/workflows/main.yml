@@ -24,7 +24,7 @@ jobs: # here starts the job section
         run: echo "hello world" #what to do
         shell: bash #what terminal
       - name: Send custom JSON data to Slack workflow
-        id: C079R7AGEE7
+        id: "C079R7AGEE7"
         uses: slackapi/slack-github-action@v1.26.0
         with:
           # This data can be any valid JSON from a previous step in the GitHub Action
