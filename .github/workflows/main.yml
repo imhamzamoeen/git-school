@@ -23,6 +23,29 @@ jobs: # here starts the job section
       - name: hello world #name of the step
         run: echo "hello world" #what to do
         shell: bash #what terminal
+      - name: Send Slack Message Of start
+        id: slack #pre written
+        uses: slackapi/slack-github-action@v1.26.0 #what action we are using of other
+        with:
+          # Slack channel id, channel name, or user id to post message.
+          # See also: https://api.slack.com/methods/chat.postMessage#channels
+          channel-id: "C079R7AGEE7" #we can get from a channel url
+          # For posting a rich message using Block Kit
+          payload: |
+            {
+            "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
+            "blocks": [
+            {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+            }
+            }
+            ]
+            }
+        env:  #we can pass data to that task with either with sectoin or with env
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_WEBHOOK_URL }} # we have declared it in the secret section under setting section of this repo
 
   bye:
     runs-on: ubuntu-latest
