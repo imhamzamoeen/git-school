@@ -27,12 +27,14 @@ jobs: # here starts the job section
         id: slack
         uses: slackapi/slack-github-action@v1.26.0
         with:
-          # This data can be any valid JSON from a previous step in the GitHub Action
+          # This data can be any valid JSON from a previous step in the GitHub
+          
           payload: |
             {
               "key": "value",
               "foo": "bar"
             }
+          payload-file-path-parsed: false
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # we have declared it in the secret section under setting section of this repo
 
