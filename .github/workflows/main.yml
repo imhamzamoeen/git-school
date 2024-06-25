@@ -24,17 +24,17 @@ jobs: # here starts the job section
         run: echo "hello world" #what to do
         shell: bash #what terminal
       - name: Send custom JSON data to Slack workflow
-        id: "C079R7AGEE7"
+        id: slack
         uses: slackapi/slack-github-action@v1.26.0
         with:
           # This data can be any valid JSON from a previous step in the GitHub Action
           payload: |
             {
-             "key": "value",
-             "foo": "bar"
+              "key": "value",
+              "foo": "bar"
             }
-        env: #we can pass data to that task with either with sectoin or with env
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_WEBHOOK_URL }} # we have declared it in the secret section under setting section of this repo
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # we have declared it in the secret section under setting section of this repo
 
   bye:
     runs-on: ubuntu-latest
