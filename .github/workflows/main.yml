@@ -8,7 +8,7 @@ on:
   #trigger this whenever the push event is done on the beneath branches
   push: # here the event name
     branches: #whenever the above written event happens on the beneath branches the jobs will run
-      - mains
+      - main
       - develop
   pull_request:
     branches:
@@ -31,7 +31,30 @@ jobs: # here starts the job section
           slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-  bye:
+      - name: Setup PHP #this will setup the php at runner
+        id: setup-php #id of the step that can later be used to get the output of the step
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2" # which version to set at
+          extensions: mbstring, intl
+          ini-values: post_max_size=256M, max_execution_time=180
+          coverage: xdebug
+          tools: php-cs-fixer, phpunit
+
+      - name: Print PHP version
+        run: echo ${{ steps.setup-php.outputs.php-version }}
+
+      - name: PHP Syntax Checker (Lint)
+        uses: StephaneBour/actions-php-lint@8.2
+        with:
+          dir: "." # where to check files
+
+      - name: Lint PHP files
+        uses: overtrue/phplint@main
+        with:
+          path: .
+          options: --exclude=vendor
+  bye: # since this is another job so it will run on different and in parallell then previous so might finsh before firsst one
     runs-on: ubuntu-latest
     steps:
       - name: Good Bye
