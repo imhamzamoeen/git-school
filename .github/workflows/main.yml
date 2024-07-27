@@ -10,10 +10,12 @@ on:
     branches: #whenever the above written event happens on the beneath branches the jobs will run
       - main
       - develop
+      - feature/*
   pull_request:
     branches:
       - main
       - develop
+    types: closed
 
 jobs: # here starts the job section
   hello: # the name you have given to your first job, its easier to debug then this will be written there at the github action
@@ -47,13 +49,18 @@ jobs: # here starts the job section
       - name: PHP Syntax Checker (Lint)
         uses: StephaneBour/actions-php-lint@8.2
         with:
-          dir: "." # where to check files
+          dir: "." # where to check files. if any file has syntax error it will stop there
 
-      - name: Lint PHP files
-        uses: overtrue/phplint@main
+      - name: Install Pint
+        run: composer global require laravel/pint
+
+      - name: Run Pint
+        run: pint
+
+      - name: Commit linted files
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          path: .
-          options: --exclude=vendor
+          commit_message: "Fixes coding style of  ${{github.actor}} ${{github.event_name}}"
   bye: # since this is another job so it will run on different and in parallell then previous so might finsh before firsst one
     runs-on: ubuntu-latest
     steps:
