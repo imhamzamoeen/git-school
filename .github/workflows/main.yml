@@ -3,7 +3,7 @@
 name:
   "hello world"
   # then it need to define at which event this will be triggered like create of branch del of branch push pull merge
-
+run-name: ${{github.actor}} is triggering that workflow # this will be show the title in the github action tab
 on:
   #trigger this whenever the push event is done on the beneath branches
   push: # here the event name
@@ -23,13 +23,13 @@ jobs: # here starts the job section
       - name: hello world #name of the step
         run: echo "hello world" #what to do
         shell: bash #what terminal
-      -  name: Post to a Slack channel
-         id: slack
-         uses: slackapi/slack-github-action@v1.26.0
-         with:
-          channel-id: 'C079RS9Q55G'
+      - name: Post to a Slack channel
+        id: slack
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: "C079RS9Q55G"
           slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-         env:
+        env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   bye:
     runs-on: ubuntu-latest

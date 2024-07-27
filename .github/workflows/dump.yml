@@ -3,13 +3,13 @@ name: "dump event"
 on:
   push:
     branches:
-      - main
+      - mains
 
 jobs: # here starts the job section
   dump-event: # the name you have given to your first job, its easier to debug then this will be written there at the github action
     runs-on: ubuntu-latest # on which runner it will run since each job to run independently
     steps: #steps of the job
       - name: "dump event" #name of the step
-        run: echo '${{ toJSON(github.event) }}' #what to do
+        run: echo '${{ toJSON(github) }}' #what to do
         shell: bash #what terminal
 
