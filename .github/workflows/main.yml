@@ -63,6 +63,12 @@ jobs: # here starts the job section
           commit_message: "Fixes coding style of  ${{github.actor}} ${{github.event_name}}"
       - name: install composer
         run: composer install --no-interaction --no-ansi --no-scripts --prefer-dist
+      - name: setup envoirnment
+        run: |
+          cp .env.example .env
+          php artisan optimize:clear
+          php artisan key:generate
+          php artisan migrate:fresh --seed
 
       - name: Test unit tests
         run: php artisan test
