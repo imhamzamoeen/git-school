@@ -61,6 +61,8 @@ jobs: # here starts the job section
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Fixes coding style of  ${{github.actor}} ${{github.event_name}}"
+      - name: Test unit tests
+        run: php artisan test
   bye: # since this is another job so it will run on different and in parallell then previous so might finsh before firsst one
     runs-on: ubuntu-latest
     steps:
