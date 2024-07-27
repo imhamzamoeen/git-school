@@ -55,7 +55,7 @@ jobs: # here starts the job section
         run: composer global require laravel/pint
 
       - name: Run Pint
-        run: pint
+        run: pint # this run that command and ofcourse if fixes does that changes to that github runner our repo files
 
       - name: Commit linted files
         uses: stefanzweifel/git-auto-commit-action@v5
