@@ -8,7 +8,7 @@ on:
   #trigger this whenever the push event is done on the beneath branches
   push: # here the event name
     branches: #whenever the above written event happens on the beneath branches the jobs will run
-      - main
+      - mains
       - develop
   pull_request:
     branches:

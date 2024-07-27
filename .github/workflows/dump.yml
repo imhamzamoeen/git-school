@@ -3,7 +3,7 @@ name: "dump event"
 on:
   push:
     branches:
-      - mains
+      - main
 
 jobs: # here starts the job section
   dump-event: # the name you have given to your first job, its easier to debug then this will be written there at the github action
