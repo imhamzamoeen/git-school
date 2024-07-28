@@ -18,7 +18,7 @@ on:
     types: closed
 
 jobs: # here starts the job section
-  hello: # the name you have given to your first job, its easier to debug then this will be written there at the github action
+  Laravel-Test: # the name you have given to your first job, its easier to debug then this will be written there at the github action
     runs-on: ubuntu-latest # on which runner it will run since each job to run independently
     services: # the services to include on this job. its like a container image
       mysql:
@@ -71,7 +71,17 @@ jobs: # here starts the job section
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Fixes coding style of  ${{github.actor}} ${{github.event_name}}"
-      - name: install composer
+
+      - name: Cache composer files # caching the vendor files to save time
+        id: cache-composer
+        uses: actions/cache@v4
+        with:
+          path: vendor # what folder to cache
+          key: composer-files-${{ hashFiles('**/composer.lock') }} # the unique key.. its like composer-files and the hash of that file. whenever we will add  a package with composer as it will have a new hash file so key will change and cache hit will be a miss
+          restore-keys: composer-files # extra keys to check if you dont get from the above
+
+      - name: install composer # only install composer when composer lock is changed
+        if: steps.cache-composer.outputs.cache-hit != 'true'
         run: composer install --no-interaction --no-ansi --no-scripts --prefer-dist
       - name: setup envoirnment
         run: |
@@ -87,19 +97,12 @@ jobs: # here starts the job section
       - name: test Success Case
         if: success()
         run: echo "if the previous step get successful it will run"
-      - name: test Success Case
-        if: success()
-        run: echo "if the previous step get successful it will run"
-
-      - name: Run if cancelled
-        if: failure()
-        run: echo "This runs if the previous step like test was failed"
-
       - name: check
         if: failure()
-        run: echo "jan k"
+        run: echo "any of the previous step has failed "
   bye: # since this is another job so it will run on different and in parallell then previous so might finsh before firsst one
     runs-on: ubuntu-latest
+    needs: Laravel-Test
     steps:
       - name: Good Bye
         run: echo "Good Bye"
