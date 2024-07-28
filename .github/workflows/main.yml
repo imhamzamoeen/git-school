@@ -76,9 +76,9 @@ jobs: # here starts the job section
       - name: setup envoirnment
         run: |
           cp .env.example .env
-          php artisan optimize:clear
           php artisan key:generate
           php artisan migrate:fresh --seed
+          php artisan optimize:clear
 
       - name: Test unit tests
         run: php artisan test
