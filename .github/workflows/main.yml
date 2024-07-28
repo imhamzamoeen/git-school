@@ -1,23 +1,106 @@
-name: "Example Workflow with failure() condition"
-on: [push]
+# its a key value pair with python syntax
+# first it will contain a name that will be name of this file
+name:
+  "hello world"
+  # then it need to define at which event this will be triggered like create of branch del of branch push pull merge
+run-name: ${{github.actor}} is triggering that workflow # this will be show the title in the github action tab
+on:
+  #trigger this whenever the push event is done on the beneath branches
+  push: # here the event name
+    branches: #whenever the above written event happens on the beneath branches the jobs will run
+      - main
+      - develop
+      - feature/*
+  pull_request:
+    branches:
+      - main
+      - develop
+    types: closed
 
-jobs:
-  test-job:
+jobs: # here starts the job section
+  hello: # the name you have given to your first job, its easier to debug then this will be written there at the github action
+    runs-on: ubuntu-latest # on which runner it will run since each job to run independently
+    services: # the services to include on this job. its like a container image
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: dummy_database # creates a new database
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps: #steps of the job
+      - uses: actions/checkout@v2 # which action it is using as there are lot of pre built written by people so we use this and its like owner/repo@version or tag or branch
+      - name: hello world #name of the step
+        run: echo "hello world" #what to do
+        shell: bash #what terminal
+      - name: Post to a Slack channel
+        id: slack
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: "C079RS9Q55G"
+          slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      - name: Setup PHP #this will setup the php at runner
+        id: setup-php #id of the step that can later be used to get the output of the step
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2" # which version to set at
+          extensions: mbstring, intl
+          ini-values: post_max_size=256M, max_execution_time=180
+          coverage: xdebug
+          tools: php-cs-fixer, phpunit
+
+      - name: Print PHP version
+        run: echo ${{ steps.setup-php.outputs.php-version }}
+
+      - name: PHP Syntax Checker (Lint)
+        uses: StephaneBour/actions-php-lint@8.2
+        with:
+          dir: "." # where to check files. if any file has syntax error it will stop there
+
+      - name: Install Pint
+        run: composer global require laravel/pint
+
+      - name: Run Pint
+        run: pint # this run that command and ofcourse if fixes does that changes to that github runner our repo files
+
+      - name: Commit linted files
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Fixes coding style of  ${{github.actor}} ${{github.event_name}}"
+      - name: install composer
+        run: composer install --no-interaction --no-ansi --no-scripts --prefer-dist
+      - name: setup envoirnment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          php artisan migrate:fresh --seed
+          php artisan optimize:clear
+
+      - name: Test unit tests
+        id: php-test-step
+        run: php artisan test
+
+      - name: test Success Case
+        if: success()
+        run: echo "if the previous step get successful it will run"
+      - name: test Success Case
+        if: success()
+        run: echo "if the previous step get successful it will run"
+
+      - name: Run if cancelled
+        if: failure()
+        run: echo "This runs if the previous step like test was failed"
+
+      - name: check
+        if: failure()
+        run: echo "jan k"
+  bye: # since this is another job so it will run on different and in parallell then previous so might finsh before firsst one
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: This step will intentionally fail
-        run: exit 1
-
-      - name: This step runs only if the previous step fails
-        if: failure()
-        run: echo "Previous step failed, running this step."
-
-      - name: This step runs regardless of previous step's success or failure
-        run: echo "This runs no matter what."
-
-      - name: This step runs only if the previous steps have succeeded
-        if: success()
-        run: echo "All previous steps succeeded, running this step."
+      - name: Good Bye
+        run: echo "Good Bye"
+        shell: bash
