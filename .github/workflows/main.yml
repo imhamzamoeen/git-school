@@ -93,6 +93,7 @@ jobs: # here starts the job section
         run: echo "This runs if the previous step like test was failed"
 
       - name: check
+        if: failure()
         run: echo "jan k"
   bye: # since this is another job so it will run on different and in parallell then previous so might finsh before firsst one
     runs-on: ubuntu-latest
