@@ -84,13 +84,16 @@ jobs: # here starts the job section
         id: php-test-step
         run: php artisan test
 
-      - name: Always run this step
+      - name: test Success Case
         if: success()
-        run: echo "This runs regardless of the previous step's outcome"
+        run: echo "if the previous step get successful it will run"
 
       - name: Run if cancelled
         if: failure()
-        run: echo "This runs if the workflow was cancelled"
+        run: echo "This runs if the previous step like test was failed"
+
+      - name: check
+        run: echo "jan k"
   bye: # since this is another job so it will run on different and in parallell then previous so might finsh before firsst one
     runs-on: ubuntu-latest
     steps:
