@@ -112,7 +112,7 @@ jobs: # here starts the job section
           port: ${{ secrets.PORT }}
           key: ${{ secrets.SSHKEY }}
           script_stop: true
-          script: "cd /home/imfaisii-test/htdocs/test.imfaisii.dev/git-school && ./.scripts/deploy.sh" # on server go to this and run this script
+          script: "cd /home/imfaisii-test/htdocs/test.imfaisii.dev/git-school && ./.github/workflows/.scripts/deploy.sh" # on server go to this and run this script
       - name: Good Bye
         run: echo "Good Bye"
         shell: bash
