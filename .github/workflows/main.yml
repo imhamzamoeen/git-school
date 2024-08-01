@@ -104,6 +104,15 @@ jobs: # here starts the job section
     runs-on: ubuntu-latest
     needs: Laravel-Test
     steps:
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.SSHKEY }}
+          script_stop: true
+          script: "cd /home/imfaisii-test/htdocs/test.imfaisii.dev/git-school && ./.scripts/deploy.sh" # on server go to this and run this script
       - name: Good Bye
         run: echo "Good Bye"
         shell: bash
