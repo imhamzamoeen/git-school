@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('check', fn () => 'safss');
+Route::get('check', fn () => 'sapny');
 
 Route::get('/', function () {
     $string = 'hamzaisssa';
